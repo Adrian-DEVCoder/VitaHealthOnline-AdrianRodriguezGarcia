@@ -1,9 +1,6 @@
 package com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Pruebas;
 
-import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Entidades.Consulta;
-import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Entidades.Historial;
-import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Entidades.Medico;
-import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Entidades.Paciente;
+import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Entidades.*;
 import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Repositorio.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -20,6 +17,7 @@ public class ProbarDAO {
         MedicoDAO medicoDAO = new MedicoDAOImpl();
         ConsultaDAO consultaDAO = new ConsultaDAOImpl();
         HistorialDAO historialDAO = new HistorialDAOImpl();
+        DatosSaludDAO datosSaludDAO = new DatosSaludDAOImpl();
 
         //Instanciamos pacientes
         Paciente p1 = new Paciente();
@@ -87,6 +85,21 @@ public class ProbarDAO {
             System.out.println(historial);
         });
 
+        // Instanciamos datos de salud
+        DatosSalud d1 = new DatosSalud();
+        d1.setId_dato(1);
+        d1.setPaciente(p1);
+        Date fechaDato = java.sql.Date.valueOf(LocalDate.of(2024, 2, 1));
+        d1.setFecha_dato(fechaDato);
+        d1.setTipo_dato("Lectura de Glucosa");
+        d1.setValor_dato("120");
+        d1.setUnidad_medida("mg/dL");
+        // Insertamos los datos de salud
+        datosSaludDAO.insertarActualizarDatosSalud(d1);
+        // Mostramos los datos de salud
+        datosSaludDAO.getAllDatosSalud().forEach(datosSalud -> {
+            System.out.println(datosSalud);
+        });
         // Cerramos los entity manager
         entityManager.close();
         entityManagerFactory.close();
