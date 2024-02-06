@@ -1,6 +1,7 @@
 package com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Pruebas;
 
 import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Entidades.Consulta;
+import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Entidades.Historial;
 import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Entidades.Medico;
 import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Entidades.Paciente;
 import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Repositorio.*;
@@ -18,6 +19,7 @@ public class ProbarDAO {
         PacienteDAO pacienteDAO = new PacienteDAOImpl();
         MedicoDAO medicoDAO = new MedicoDAOImpl();
         ConsultaDAO consultaDAO = new ConsultaDAOImpl();
+        HistorialDAO historialDAO = new HistorialDAOImpl();
 
         //Instanciamos pacientes
         Paciente p1 = new Paciente();
@@ -57,8 +59,8 @@ public class ProbarDAO {
         c1.setId_consulta(1);
         c1.setPaciente(p1);
         c1.setMedico(m1);
-        Date fecha = java.sql.Date.valueOf(LocalDate.of(2024, 2, 6));
-        c1.setFecha_consulta(fecha);
+        Date fechaConsulta = java.sql.Date.valueOf(LocalDate.of(2024, 2, 6));
+        c1.setFecha_consulta(fechaConsulta);
         c1.setTipo_consulta("Online");
         c1.setEstado_consulta("Programada");
         // Insertamos las consultas
@@ -66,6 +68,23 @@ public class ProbarDAO {
         // Mostramos las consultas
         consultaDAO.getAllConsultas().forEach(consulta -> {
             System.out.println(consulta);
+        });
+
+        // Instanciamos historiales
+        Historial h1 = new Historial();
+        h1.setId_historial(1);
+        h1.setPaciente(p1);
+        h1.setMedico(m1);
+        Date fechaRegistro = java.sql.Date.valueOf(LocalDate.of(2024,2,5));
+        h1.setFecha_registro(fechaRegistro);
+        h1.setDiagnostico("Artritis Rumatoide");
+        h1.setTratamiento("Se proporciona un vendaje, para estabilizar y aliviar la articulacion");
+        h1.setNotas("Realizar vida sana");
+        // Insertamos el historial
+        historialDAO.insertarActualizarHistorial(h1);
+        // Mostramos los historiales
+        historialDAO.getAllHistoriales().forEach(historial -> {
+            System.out.println(historial);
         });
 
         // Cerramos los entity manager
