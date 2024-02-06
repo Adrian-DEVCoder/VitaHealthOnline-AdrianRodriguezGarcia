@@ -18,6 +18,7 @@ public class ProbarDAO {
         ConsultaDAO consultaDAO = new ConsultaDAOImpl();
         HistorialDAO historialDAO = new HistorialDAOImpl();
         DatosSaludDAO datosSaludDAO = new DatosSaludDAOImpl();
+        MensajeDAO mensajeDAO = new MensajeDAOImpl();
 
         //Instanciamos pacientes
         Paciente p1 = new Paciente();
@@ -100,6 +101,23 @@ public class ProbarDAO {
         datosSaludDAO.getAllDatosSalud().forEach(datosSalud -> {
             System.out.println(datosSalud);
         });
+
+        // Instanciamos mensajes
+        Mensaje men1 = new Mensaje();
+        men1.setId_mensaje(1);
+        men1.setPaciente(p1);
+        men1.setMedico(m1);
+        men1.setContenido_mensaje("Buenas. Quiero solicitar un analisis sanguineo. Un saludo");
+        Date fechaEnvio = java.sql.Date.valueOf(LocalDate.of(2024,2,4));
+        men1.setFecha_envio(fechaEnvio);
+        men1.setLeido(true);
+        // Insertamos los mensajes
+        mensajeDAO.insertarActualizarMensaje(men1);
+        // Mostramos los mensajes
+        mensajeDAO.getAllMensajes().forEach(mensaje -> {
+            System.out.println(mensaje);
+        });
+
         // Cerramos los entity manager
         entityManager.close();
         entityManagerFactory.close();
