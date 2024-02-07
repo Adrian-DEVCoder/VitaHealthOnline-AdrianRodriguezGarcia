@@ -32,6 +32,24 @@ public class UsuarioDAOImpl implements UsuarioDAO{
     }
 
     @Override
+    public Usuario findByNombreAndContrasena(String nombre, String contrasena) {
+        entityManager = entityManagerFactory.createEntityManager();
+        try {
+            // Consulta JPQL para buscar un usuario por su nombre y contraseña
+            String jpql = "SELECT u FROM Usuario u WHERE u.nombre = :nombre AND u.contrasena = :contrasena";
+            Query query = entityManager.createQuery(jpql);
+            query.setParameter("nombre", nombre);
+            query.setParameter("contrasena", contrasena);
+            // Ejecutar la consulta y devolver el resultado único o null si no se encuentra ningún usuario
+            return (Usuario) query.getSingleResult();
+        } catch (Exception exception) {
+            // Si no se encuentra ningún usuario con el nombre y contraseña dados, devolver null
+            return null;
+        }
+    }
+
+
+    @Override
     public List<Usuario> getAllUsuarios() {
         entityManager = entityManagerFactory.createEntityManager();
         String hql = "FROM Usuario u";

@@ -9,7 +9,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
+            background-color: #222;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -28,7 +28,7 @@
         .registro-container h2 {
             margin-bottom: 20px;
             text-align: center;
-            color: #007bff; /* Color azul para el título */
+            color: #28a745; /* Color verde para el título */
         }
 
         .form-group {
@@ -52,7 +52,7 @@
         .form-group button {
             width: 100%;
             padding: 10px;
-            background-color: #007bff;
+            background-color: #28a745; /* Color verde para el botón */
             border: none;
             border-radius: 5px;
             color: #fff;
@@ -61,7 +61,7 @@
         }
 
         .form-group button:hover {
-            background-color: #0056b3;
+            background-color: #218838; /* Color verde oscuro al pasar el cursor */
         }
 
         /* Estilo para el enlace de inicio de sesión */
@@ -69,20 +69,20 @@
             display: block;
             text-align: center;
             margin-top: 20px;
-            color: #007bff;
+            color: #28a745; /* Color verde para el enlace */
             text-decoration: none;
             transition: color 0.3s ease;
         }
 
         .login-link:hover {
-            color: #0056b3;
+            color: #218838; /* Color verde oscuro al pasar el cursor */
         }
     </style>
 </head>
 <body>
 <div class="registro-container">
     <h2>Registro de Usuario</h2>
-    <form action="/registro" method="post">
+    <form action="./register" method="post">
         <div class="form-group">
             <label for="usuario">Usuario:</label>
             <input type="text" id="usuario" name="usuario" required>
@@ -94,15 +94,15 @@
         <div class="form-group">
             <label for="rol">Rol:</label>
             <select id="rol" name="rol" required>
-                <option value="paciente">Paciente</option>
-                <option value="medico">Médico</option>
+                <option value="Paciente">Paciente</option>
+                <option value="Medico">Médico</option>
             </select>
         </div>
         <div class="form-group">
             <button type="submit">Registrar</button>
         </div>
     </form>
-    <p>¿Ya tienes una cuenta? <a href="./login">Inicia sesión aqui</a></p>
+    <p>¿Ya tienes una cuenta? <a href="./login" class="login-link">Inicia sesión aqui</a></p>
 </div>
 </body>
 </html>

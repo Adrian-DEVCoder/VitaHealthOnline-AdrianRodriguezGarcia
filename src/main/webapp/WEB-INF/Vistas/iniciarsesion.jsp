@@ -5,6 +5,7 @@
   Time: 1:03
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -80,10 +81,12 @@
   </style>
 </head>
 <body>
-
+<c:if test="${not empty error}">
+  <div class="error-message">${error}</div>
+</c:if>
 <div class="container">
   <h2>Iniciar Sesion</h2>
-  <form action="/login" method="post">
+  <form action="./login" method="post">
     <input type="text" name="username" placeholder="Nombre de usuario" required>
     <input type="password" name="password" placeholder="Contrasena" required>
     <input type="submit" value="Iniciar Sesion">
