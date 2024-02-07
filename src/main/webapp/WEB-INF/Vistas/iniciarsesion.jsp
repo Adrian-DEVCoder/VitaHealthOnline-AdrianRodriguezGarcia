@@ -6,11 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html lang="es">
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VitaHealth - Online | Iniciar Sesion</title>
   <style>
     body {
@@ -85,14 +83,14 @@
   <div class="error-message">${error}</div>
 </c:if>
 <div class="container">
-  <h2>Iniciar Sesion</h2>
+  <h2>Iniciar Sesión</h2>
   <form action="./login" method="post">
     <input type="text" name="username" placeholder="Nombre de usuario" required>
-    <input type="password" name="password" placeholder="Contrasena" required>
-    <input type="submit" value="Iniciar Sesion">
+    <input type="password" name="password" placeholder="Contraseña" required>
+    <input type="submit" value="Iniciar Sesión">
   </form>
   <div style="text-align: center;">
-    <p>Aun no estas registrado?</p>
+    <p>¿Aún no estas registrado?</p>
     <a href="./register" class="register-link">Registrarse</a>
   </div>
 </div>
