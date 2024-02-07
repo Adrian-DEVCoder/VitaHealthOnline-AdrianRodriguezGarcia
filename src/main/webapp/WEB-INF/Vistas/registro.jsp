@@ -13,6 +13,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            place-content: center;
             height: 100vh;
         }
 
@@ -101,7 +102,7 @@
             <button type="submit">Registrar</button>
         </div>
     </form>
-    <p>¿Ya tienes una cuenta? <a href="/login">Inicia sesión aquí</a></p>
+    <p>¿Ya tienes una cuenta? <a href="./login">Inicia sesión aqui</a></p>
 </div>
 </body>
 </html>
