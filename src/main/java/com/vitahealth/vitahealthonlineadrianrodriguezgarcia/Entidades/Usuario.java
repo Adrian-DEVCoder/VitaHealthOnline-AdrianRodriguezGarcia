@@ -22,8 +22,7 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(int id_usuario, String nombre, String contrasena, String rol) {
-        this.id_usuario = id_usuario;
+    public Usuario(String nombre, String contrasena, String rol) {
         this.nombre = nombre;
         this.contrasena = contrasena;
         this.rol = rol;

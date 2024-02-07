@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VitaHealth - Online | Iniciar Sesion</title>
+    <title>VitaHealth - Online | Registro</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #222;
+            background-color: #f5f5f5;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
         }
 
-        .login-container {
+        .registro-container {
             background-color: #fff;
             border-radius: 5px;
             padding: 20px;
@@ -24,9 +24,10 @@
             width: 300px;
         }
 
-        .login-container h2 {
+        .registro-container h2 {
             margin-bottom: 20px;
             text-align: center;
+            color: #007bff; /* Color azul para el título */
         }
 
         .form-group {
@@ -37,7 +38,9 @@
             font-weight: bold;
         }
 
-        .form-group input {
+        .form-group input[type="text"],
+        .form-group input[type="password"],
+        .form-group select {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
@@ -53,17 +56,32 @@
             border-radius: 5px;
             color: #fff;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
         .form-group button:hover {
             background-color: #0056b3;
         }
+
+        /* Estilo para el enlace de inicio de sesión */
+        .login-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .login-link:hover {
+            color: #0056b3;
+        }
     </style>
 </head>
 <body>
-<div class="login-container">
-    <h2>Iniciar Sesión</h2>
-    <form action="/login" method="post">
+<div class="registro-container">
+    <h2>Registro de Usuario</h2>
+    <form action="/registro" method="post">
         <div class="form-group">
             <label for="usuario">Usuario:</label>
             <input type="text" id="usuario" name="usuario" required>
@@ -73,14 +91,17 @@
             <input type="password" id="contrasena" name="contrasena" required>
         </div>
         <div class="form-group">
-            <button type="submit">Iniciar Sesión</button>
+            <label for="rol">Rol:</label>
+            <select id="rol" name="rol" required>
+                <option value="paciente">Paciente</option>
+                <option value="medico">Médico</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="submit">Registrar</button>
         </div>
     </form>
-    <!-- Botón para ir a la página de registro -->
-    <div class="form-group">
-        <p>¿No tienes una cuenta?</p>
-        <a href="/registro"><button>Registrarse</button></a>
-    </div>
+    <p>¿Ya tienes una cuenta? <a href="/login">Inicia sesión aquí</a></p>
 </div>
 </body>
 </html>
