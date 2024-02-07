@@ -13,12 +13,26 @@ public class ProbarDAO {
     public static void main(String[] args) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("upAdrian");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
+        UsuarioDAO usuarioDAO = new UsuarioDAOImpl();
         PacienteDAO pacienteDAO = new PacienteDAOImpl();
         MedicoDAO medicoDAO = new MedicoDAOImpl();
         ConsultaDAO consultaDAO = new ConsultaDAOImpl();
         HistorialDAO historialDAO = new HistorialDAOImpl();
         DatosSaludDAO datosSaludDAO = new DatosSaludDAOImpl();
         MensajeDAO mensajeDAO = new MensajeDAOImpl();
+
+        // Instanciamos usuarios
+        Usuario u1 = new Usuario();
+        u1.setId_usuario(1);
+        u1.setNombre("pepe");
+        u1.setContrasena("1234");
+        u1.setRol("Paciente");
+        // Insertamos el usuario
+        usuarioDAO.insertarActualizarUsuario(u1);
+        // Mostramos los usuarios
+        usuarioDAO.getAllUsuarios().forEach(usuario -> {
+            System.out.println(usuario);
+        });
 
         //Instanciamos pacientes
         Paciente p1 = new Paciente();
