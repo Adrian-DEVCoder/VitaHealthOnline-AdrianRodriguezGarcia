@@ -21,6 +21,27 @@ public class ProbarDAO {
         DatosSaludDAO datosSaludDAO = new DatosSaludDAOImpl();
         MensajeDAO mensajeDAO = new MensajeDAOImpl();
 
+        // Instanciamos usuarios
+        Usuario u1 = new Usuario();
+        u1.setId_usuario(1);
+        u1.setNombre("pepe");
+        u1.setContrasena("1234");
+        u1.setRol("Paciente");
+        // Insertamos el usuario
+        usuarioDAO.insertarActualizarUsuario(u1);
+        // Instanciamos usuarios
+        Usuario u2 = new Usuario();
+        u2.setId_usuario(2);
+        u2.setNombre("luis");
+        u2.setContrasena("1234");
+        u2.setRol("Medico");
+        // Insertamos el usuario
+        usuarioDAO.insertarActualizarUsuario(u2);
+        // Mostramos los usuarios
+        usuarioDAO.getAllUsuarios().forEach(usuario -> {
+            System.out.println(usuario);
+        });
+
         //Instanciamos pacientes
         Paciente p1 = new Paciente();
         p1.setId_paciente(1);
@@ -32,6 +53,7 @@ public class ProbarDAO {
         p1.setDireccion("Calle Zaragoza, 3");
         p1.setCorreo_electronico("pepe.lopez@gmail.com");
         p1.setTelefono("654281937");
+        p1.setUsuario(u1);
         // Insertamos el paciente
         pacienteDAO.insertarActualizarPaciente(p1);
         // Mostramos los pacientes
@@ -47,25 +69,12 @@ public class ProbarDAO {
         m1.setEspecialidad("Enfermería Pediatrica");
         m1.setCorreo_electronico("luis.perez@gmail.com");
         m1.setTelefono("625413879");
+        m1.setUsuario(u2);
         // Insertamos los medicos
         medicoDAO.insertarActualizarMedico(m1);
         // Mostramos los medicos
         medicoDAO.getAllMedicos().forEach(medico -> {
             System.out.println(medico);
-        });
-
-        // Instanciamos usuarios
-        Usuario u1 = new Usuario();
-        u1.setId_usuario(1);
-        u1.setNombre("pepe");
-        u1.setContrasena("1234");
-        u1.setRol("Paciente");
-        u1.setPaciente(p1);
-        // Insertamos el usuario
-        usuarioDAO.insertarActualizarUsuario(u1);
-        // Mostramos los usuarios
-        usuarioDAO.getAllUsuarios().forEach(usuario -> {
-            System.out.println(usuario);
         });
 
         // Instanciamos consultas

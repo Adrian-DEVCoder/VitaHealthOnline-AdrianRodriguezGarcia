@@ -21,21 +21,15 @@ public class Paciente {
     private String direccion;
     private String correo_electronico;
     private String telefono;
-
     @OneToOne
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
-
     @OneToMany(mappedBy = "paciente")
-    @JoinColumn(name = "consultas")
     private List<Consulta> consultas;
-
     @OneToMany(mappedBy = "paciente")
-    @JoinColumn(name = "historial")
     private List<Historial> historiales;
-
     @OneToMany(mappedBy = "paciente")
-    @JoinColumn(name = "datos_salud")
+
     private List<DatosSalud> datosSalud;
 
     public Paciente() {
@@ -164,9 +158,6 @@ public class Paciente {
                 ", correo_electronico='" + correo_electronico + '\'' +
                 ", telefono='" + telefono + '\'' +
                 ", usuario=" + usuario +
-                ", consultas=" + consultas +
-                ", historiales=" + historiales +
-                ", datosSalud=" + datosSalud +
                 '}';
     }
 }
