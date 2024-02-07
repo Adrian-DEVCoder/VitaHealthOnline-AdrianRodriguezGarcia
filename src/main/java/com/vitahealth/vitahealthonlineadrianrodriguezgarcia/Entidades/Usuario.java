@@ -14,6 +14,10 @@ public class Usuario {
     private String nombre;
     private String contrasena;
     private String rol;
+    @OneToOne(mappedBy = "usuario")
+    private Paciente paciente;
+    @OneToOne(mappedBy = "usuario")
+    private Medico medico;
 
     public Usuario() {
     }
@@ -55,6 +59,22 @@ public class Usuario {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
+    }
+
+    public Medico getMedico() {
+        return medico;
+    }
+
+    public void setMedico(Medico medico) {
+        this.medico = medico;
     }
 
     @Override

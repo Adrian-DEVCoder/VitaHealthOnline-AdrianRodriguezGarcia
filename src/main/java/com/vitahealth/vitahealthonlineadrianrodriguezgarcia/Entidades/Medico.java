@@ -17,16 +17,21 @@ public class Medico {
     private String correo_electronico;
     private String telefono;
 
+    @OneToOne
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
+
     public Medico() {
     }
 
-    public Medico(int id_profesional, String nombre_profesional, String apellidos_profesional, String especialidad, String correo_electronico, String telefono) {
+    public Medico(int id_profesional, String nombre_profesional, String apellidos_profesional, String especialidad, String correo_electronico, String telefono, Usuario usuario) {
         this.id_profesional = id_profesional;
         this.nombre_profesional = nombre_profesional;
         this.apellidos_profesional = apellidos_profesional;
         this.especialidad = especialidad;
         this.correo_electronico = correo_electronico;
         this.telefono = telefono;
+        this.usuario = usuario;
     }
 
     public int getId_profesional() {
@@ -77,6 +82,14 @@ public class Medico {
         this.telefono = telefono;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
     @Override
     public String toString() {
         return "Medico{" +
@@ -86,6 +99,7 @@ public class Medico {
                 ", especialidad='" + especialidad + '\'' +
                 ", correo_electronico='" + correo_electronico + '\'' +
                 ", telefono='" + telefono + '\'' +
+                ", usuario=" + usuario +
                 '}';
     }
 }

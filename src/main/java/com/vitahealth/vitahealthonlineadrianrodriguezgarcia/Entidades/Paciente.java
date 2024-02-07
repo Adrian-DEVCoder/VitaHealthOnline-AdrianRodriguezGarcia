@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 
 @Component
 @Entity
@@ -21,10 +22,26 @@ public class Paciente {
     private String correo_electronico;
     private String telefono;
 
+    @OneToOne
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
+
+    @OneToMany(mappedBy = "paciente")
+    @JoinColumn(name = "consultas")
+    private List<Consulta> consultas;
+
+    @OneToMany(mappedBy = "paciente")
+    @JoinColumn(name = "historial")
+    private List<Historial> historiales;
+
+    @OneToMany(mappedBy = "paciente")
+    @JoinColumn(name = "datos_salud")
+    private List<DatosSalud> datosSalud;
+
     public Paciente() {
     }
 
-    public Paciente(int id_paciente, String nombre_paciente, String apellidos_paciente, Date fecha_nacimiento, String sexo, String direccion, String correo_electronico, String telefono) {
+    public Paciente(int id_paciente, String nombre_paciente, String apellidos_paciente, Date fecha_nacimiento, String sexo, String direccion, String correo_electronico, String telefono, Usuario usuario, List<Consulta> consultas, List<Historial> historiales, List<DatosSalud> datosSalud) {
         this.id_paciente = id_paciente;
         this.nombre_paciente = nombre_paciente;
         this.apellidos_paciente = apellidos_paciente;
@@ -33,6 +50,10 @@ public class Paciente {
         this.direccion = direccion;
         this.correo_electronico = correo_electronico;
         this.telefono = telefono;
+        this.usuario = usuario;
+        this.consultas = consultas;
+        this.historiales = historiales;
+        this.datosSalud = datosSalud;
     }
 
     public int getId_paciente() {
@@ -99,9 +120,41 @@ public class Paciente {
         this.telefono = telefono;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public List<Consulta> getConsultas() {
+        return consultas;
+    }
+
+    public void setConsultas(List<Consulta> consultas) {
+        this.consultas = consultas;
+    }
+
+    public List<Historial> getHistoriales() {
+        return historiales;
+    }
+
+    public void setHistoriales(List<Historial> historiales) {
+        this.historiales = historiales;
+    }
+
+    public List<DatosSalud> getDatosSalud() {
+        return datosSalud;
+    }
+
+    public void setDatosSalud(List<DatosSalud> datosSalud) {
+        this.datosSalud = datosSalud;
+    }
+
     @Override
     public String toString() {
-        return "Pacientes{" +
+        return "Paciente{" +
                 "id_paciente=" + id_paciente +
                 ", nombre_paciente='" + nombre_paciente + '\'' +
                 ", apellidos_paciente='" + apellidos_paciente + '\'' +
@@ -110,6 +163,10 @@ public class Paciente {
                 ", direccion='" + direccion + '\'' +
                 ", correo_electronico='" + correo_electronico + '\'' +
                 ", telefono='" + telefono + '\'' +
+                ", usuario=" + usuario +
+                ", consultas=" + consultas +
+                ", historiales=" + historiales +
+                ", datosSalud=" + datosSalud +
                 '}';
     }
 }

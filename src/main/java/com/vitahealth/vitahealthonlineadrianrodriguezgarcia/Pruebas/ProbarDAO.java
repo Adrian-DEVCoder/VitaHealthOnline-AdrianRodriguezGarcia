@@ -21,19 +21,6 @@ public class ProbarDAO {
         DatosSaludDAO datosSaludDAO = new DatosSaludDAOImpl();
         MensajeDAO mensajeDAO = new MensajeDAOImpl();
 
-        // Instanciamos usuarios
-        Usuario u1 = new Usuario();
-        u1.setId_usuario(1);
-        u1.setNombre("pepe");
-        u1.setContrasena("1234");
-        u1.setRol("Paciente");
-        // Insertamos el usuario
-        usuarioDAO.insertarActualizarUsuario(u1);
-        // Mostramos los usuarios
-        usuarioDAO.getAllUsuarios().forEach(usuario -> {
-            System.out.println(usuario);
-        });
-
         //Instanciamos pacientes
         Paciente p1 = new Paciente();
         p1.setId_paciente(1);
@@ -65,6 +52,20 @@ public class ProbarDAO {
         // Mostramos los medicos
         medicoDAO.getAllMedicos().forEach(medico -> {
             System.out.println(medico);
+        });
+
+        // Instanciamos usuarios
+        Usuario u1 = new Usuario();
+        u1.setId_usuario(1);
+        u1.setNombre("pepe");
+        u1.setContrasena("1234");
+        u1.setRol("Paciente");
+        u1.setPaciente(p1);
+        // Insertamos el usuario
+        usuarioDAO.insertarActualizarUsuario(u1);
+        // Mostramos los usuarios
+        usuarioDAO.getAllUsuarios().forEach(usuario -> {
+            System.out.println(usuario);
         });
 
         // Instanciamos consultas
