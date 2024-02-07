@@ -7,12 +7,15 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class ProbarDAO {
     public static void main(String[] args) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("upAdrian");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
+        List<Diagnostico> listaDiagnosticos = new ArrayList<>();
         UsuarioDAO usuarioDAO = new UsuarioDAOImpl();
         PacienteDAO pacienteDAO = new PacienteDAOImpl();
         MedicoDAO medicoDAO = new MedicoDAOImpl();
@@ -20,6 +23,7 @@ public class ProbarDAO {
         HistorialDAO historialDAO = new HistorialDAOImpl();
         DatosSaludDAO datosSaludDAO = new DatosSaludDAOImpl();
         MensajeDAO mensajeDAO = new MensajeDAOImpl();
+        DiagnosticoDAO diagnosticoDAO = new DiagnosticoDAOImpl();
 
         // Instanciamos usuarios
         Usuario u1 = new Usuario();
@@ -100,14 +104,26 @@ public class ProbarDAO {
         h1.setMedico(m1);
         Date fechaRegistro = java.sql.Date.valueOf(LocalDate.of(2024,2,5));
         h1.setFecha_registro(fechaRegistro);
-        h1.setDiagnostico("Artritis Rumatoide");
-        h1.setTratamiento("Se proporciona un vendaje, para estabilizar y aliviar la articulacion");
+        h1.setDiagnosticos(listaDiagnosticos);
         h1.setNotas("Realizar vida sana");
         // Insertamos el historial
         historialDAO.insertarActualizarHistorial(h1);
         // Mostramos los historiales
         historialDAO.getAllHistoriales().forEach(historial -> {
             System.out.println(historial);
+        });
+        // Instanciamos diagnosticos
+        Diagnostico dia1 = new Diagnostico();
+        dia1.setId_diagnostico(1);
+        dia1.setHistorial(h1);
+        dia1.setDiagnostico("Artritis Rumatoide");
+        dia1.setTratamiento("Se proporciona un vendaje, para estabilizar y aliviar la articulacion");
+        // Insertamos el diagnostico
+        diagnosticoDAO.insertarActualizarDiagnostico(dia1);
+        listaDiagnosticos.add(dia1);
+        // Mostramos los diagnosticos
+        diagnosticoDAO.getAllDiagnosticos().forEach(diagnostico -> {
+            System.out.println(diagnostico);
         });
 
         // Instanciamos datos de salud

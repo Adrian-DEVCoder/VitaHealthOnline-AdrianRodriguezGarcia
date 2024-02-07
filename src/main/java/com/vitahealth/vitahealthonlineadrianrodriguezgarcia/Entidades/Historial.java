@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 
 @Component
 @Entity
@@ -20,20 +21,19 @@ public class Historial {
     @JoinColumn(name = "id_medico")
     private Medico medico;
     private Date fecha_registro;
-    private String diagnostico;
-    private String tratamiento;
+    @OneToMany(mappedBy = "historial", cascade = CascadeType.ALL)
+    private List<Diagnostico> diagnosticos;
     private String notas;
 
     public Historial() {
     }
 
-    public Historial(int id_historial, Paciente paciente, Medico medico, Date fecha_registro, String diagnostico, String tratamiento, String notas) {
+    public Historial(int id_historial, Paciente paciente, Medico medico, Date fecha_registro, List<Diagnostico> diagnosticos, String notas) {
         this.id_historial = id_historial;
         this.paciente = paciente;
         this.medico = medico;
         this.fecha_registro = fecha_registro;
-        this.diagnostico = diagnostico;
-        this.tratamiento = tratamiento;
+        this.diagnosticos = diagnosticos;
         this.notas = notas;
     }
 
@@ -69,20 +69,12 @@ public class Historial {
         this.fecha_registro = fecha_registro;
     }
 
-    public String getDiagnostico() {
-        return diagnostico;
+    public List<Diagnostico> getDiagnosticos() {
+        return diagnosticos;
     }
 
-    public void setDiagnostico(String diagnostico) {
-        this.diagnostico = diagnostico;
-    }
-
-    public String getTratamiento() {
-        return tratamiento;
-    }
-
-    public void setTratamiento(String tratamiento) {
-        this.tratamiento = tratamiento;
+    public void setDiagnosticos(List<Diagnostico> diagnosticos) {
+        this.diagnosticos = diagnosticos;
     }
 
     public String getNotas() {
@@ -100,8 +92,6 @@ public class Historial {
                 ", paciente=" + paciente +
                 ", medico=" + medico +
                 ", fecha_registro=" + fecha_registro +
-                ", diagnostico='" + diagnostico + '\'' +
-                ", tratamiento='" + tratamiento + '\'' +
                 ", notas='" + notas + '\'' +
                 '}';
     }

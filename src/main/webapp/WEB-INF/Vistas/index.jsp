@@ -5,7 +5,7 @@
     <title>VitaHealth - Online</title>
 </head>
 <body>
-<h1><%= "Hello World!" %></h1>
+<h1><%= "Bienvenidos a la pagina de VitaHealth" %></h1>
 <br/>
 </body>
 </html>
