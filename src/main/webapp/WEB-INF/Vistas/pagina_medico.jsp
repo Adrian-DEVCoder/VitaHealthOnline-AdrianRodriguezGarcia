@@ -94,7 +94,7 @@
                             <li>Programación de consultas</li>
                             <li>Seguimiento de pacientes</li>
                         </ul>
-                        <a href="/gestion_pacientes" class="btn btn-primary">Ir a Gestión de Pacientes</a>
+                        <a href="./gestion_pacientes" class="btn btn-primary">Ir a Gestión de Pacientes</a>
                     </div>
                 </div>
             </div>
@@ -108,7 +108,7 @@
                             <li>Programación de citas en línea</li>
                             <li>Recordatorios automáticos</li>
                         </ul>
-                        <a href="/gestion_citas" class="btn btn-primary">Ir a Gestión de Citas</a>
+                        <a href="./gestion_citas" class="btn btn-primary">Ir a Gestión de Citas</a>
                     </div>
                 </div>
             </div>
@@ -122,7 +122,7 @@
                             <li>Acceso al historial clínico completo</li>
                             <li>Registro y actualización de información médica</li>
                         </ul>
-                        <a href="/historial_clinico" class="btn btn-primary">Ir a Historial Clínico</a>
+                        <a href="./historial_clinico" class="btn btn-primary">Ir a Historial Clínico</a>
                     </div>
                 </div>
             </div>
@@ -136,7 +136,7 @@
                             <li>Informes y análisis de salud</li>
                             <li>Eficiencia en la atención y resultados de tratamientos</li>
                         </ul>
-                        <a href="/analisis_datos" class="btn btn-primary">Ir a Análisis de Datos</a>
+                        <a href="./analisis_datos" class="btn btn-primary">Ir a Análisis de Datos</a>
                     </div>
                 </div>
             </div>

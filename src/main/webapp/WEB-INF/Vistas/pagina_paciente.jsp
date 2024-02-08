@@ -114,7 +114,6 @@
             <div class="card">
                 <div class="section-title"><i class="bi bi-person-circle"></i> Registro y Perfil de Usuario</div>
                 <div class="section-content">
-                    <p>Regístrate, crea tu perfil y accede a tu historial clínico.</p>
                     <p>Actualiza tu información personal y clínica fácilmente.</p>
                     <a href="./perfil" class="button">Ir a Registro y Perfil</a>
                 </div>
@@ -126,7 +125,7 @@
                 <div class="section-content">
                     <p>Programa consultas en línea con profesionales de la salud.</p>
                     <p>Accede a tus consultas y resuelve tus dudas desde casa.</p>
-                    <a href="/consulta_en_linea" class="button">Ir a Consulta en Línea</a>
+                    <a href="./consulta_en_linea" class="button">Ir a Consulta en Línea</a>
                 </div>
             </div>
         </div>
@@ -134,9 +133,8 @@
             <div class="card">
                 <div class="section-title"><i class="bi bi-file-medical"></i> Historial Clínico Electrónico</div>
                 <div class="section-content">
-                    <p>Almacena tu historial médico de forma segura y accesible.</p>
                     <p>Consulta diagnósticos, tratamientos y medicamentos recetados.</p>
-                    <a href="/historial_clinico" class="button">Ir a Historial Clínico</a>
+                    <a href="./historial_clinico" class="button">Ir a Historial Clínico</a>
                 </div>
             </div>
         </div>
@@ -146,7 +144,7 @@
                 <div class="section-content">
                     <p>Registra tus datos de salud, como lecturas de glucosa y presión arterial.</p>
                     <p>Recibe recordatorios para medicamentos y seguimiento de síntomas.</p>
-                    <a href="/seguimiento_salud" class="button">Ir a Seguimiento de Salud</a>
+                    <a href="./seguimiento_salud" class="button">Ir a Seguimiento de Salud</a>
                 </div>
             </div>
         </div>
@@ -155,8 +153,7 @@
                 <div class="section-title"><i class="bi bi-chat-dots"></i> Mensajería Segura</div>
                 <div class="section-content">
                     <p>Comunícate de forma segura con profesionales de la salud.</p>
-                    <p>Gestiona consultas y preguntas frecuentes de manera eficiente.</p>
-                    <a href="/mensajeria_segura" class="button">Ir a Mensajería Segura</a>
+                    <a href="./mensajes" class="button">Ir a Mensajería Segura</a>
                 </div>
             </div>
         </div>

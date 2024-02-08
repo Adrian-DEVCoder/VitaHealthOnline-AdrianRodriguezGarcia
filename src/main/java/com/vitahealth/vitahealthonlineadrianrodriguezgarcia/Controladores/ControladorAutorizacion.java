@@ -46,6 +46,46 @@ public class ControladorAutorizacion {
         return "pagina_paciente";
     }
 
+    @GetMapping("/consulta_en_linea")
+    public String consultaEnLinea(){
+        return "consulta_en_linea";
+    }
+
+    @GetMapping("/historial_clinico")
+    public String historialClinico(){
+        return "historial_clinico";
+    }
+
+    @GetMapping("/seguimiento_salud")
+    public String seguimientoSalud(){
+        return "seguimiento_salud";
+    }
+
+    @GetMapping("/mensajes")
+    public String mensajes(){
+        return "mensajes_paciente";
+    }
+
+    @GetMapping("/gestion_pacientes")
+    public String gestionPacientes(){
+        return "gestion_pacientes";
+    }
+
+    @GetMapping("/gestion_citas")
+    public String gestionCitas(){
+        return "gestion_citas";
+    }
+
+    @GetMapping("/historial_clinico_medico")
+    public String historialClinicoMedicos(){
+        return "historial_clinico_medico";
+    }
+
+    @GetMapping("/analisis_datos")
+    public String analisisDatos(){
+        return "analisis_datos";
+    }
+
     // Mapeo para el logueo
     @GetMapping("/login")
     public String loginPage() {
