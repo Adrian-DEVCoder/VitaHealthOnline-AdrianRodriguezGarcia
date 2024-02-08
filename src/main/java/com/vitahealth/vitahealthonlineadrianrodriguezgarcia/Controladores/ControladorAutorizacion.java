@@ -98,14 +98,60 @@ public class ControladorAutorizacion {
         if (userId != 0) {
             Paciente paciente = servicioPacientes.findByIdUsuario(userId);
             Usuario usuario = servicioUsuarios.findById(userId);
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            String fechaNacimientoFormatted = formatter.format(paciente.getFecha_nacimiento());
-            model.addAttribute("paciente", paciente);
-            model.addAttribute("usuario", usuario);
-            model.addAttribute("fechaNacimiento", fechaNacimientoFormatted);
-            return "perfil_paciente";
+            if (paciente != null) {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                String fechaNacimientoFormatted = formatter.format(paciente.getFecha_nacimiento());
+                model.addAttribute("paciente", paciente);
+                model.addAttribute("usuario", usuario);
+                model.addAttribute("fechaNacimiento", fechaNacimientoFormatted);
+                return "perfil_paciente";
+            } else {
+                return "redirect:/noRegistrado";
+            }
         } else {
             return "redirect:/login";
+        }
+    }
+
+    @GetMapping("/noRegistrado")
+    public String noRegistrado(){
+        return "noRegistrado";
+    }
+
+    @GetMapping("/registro_paciente")
+    public String registroPaciente(){
+        return "registro_paciente";
+    }
+
+    @PostMapping("/insertarPaciente")
+    public String insertarPaciente(@RequestParam("nombrePaciente") String nombrePaciente,
+                                   @RequestParam("apellidosPaciente") String apellidosPaciente,
+                                   @RequestParam("fechaNacimiento") String fechaNacimiento,
+                                   @RequestParam("sexo") String sexo,
+                                   @RequestParam("direccion") String direccion,
+                                   @RequestParam("correoElectronico") String correoElectronico,
+                                   @RequestParam("telefono") String telefono,
+                                   HttpSession session,
+                                   RedirectAttributes redirectAttributes) throws ParseException {
+        int userId = (int) session.getAttribute("userId");
+        if(userId != 0){
+            Paciente nuevoPaciente = new Paciente();
+            Usuario usuarioActual = servicioUsuarios.findById(userId);
+            nuevoPaciente.setNombre_paciente(nombrePaciente);
+            nuevoPaciente.setApellidos_paciente(apellidosPaciente);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date fechaNacimientoDate = formatter.parse(fechaNacimiento);
+            nuevoPaciente.setFecha_nacimiento(fechaNacimientoDate);
+            nuevoPaciente.setSexo(sexo);
+            nuevoPaciente.setDireccion(direccion);
+            nuevoPaciente.setCorreo_electronico(correoElectronico);
+            nuevoPaciente.setTelefono(telefono);
+            nuevoPaciente.setUsuario(usuarioActual);
+            servicioPacientes.registrarPaciente(nuevoPaciente);
+            redirectAttributes.addFlashAttribute("successMessage", "Paciente insertado correctamente.");
+            return "redirect:/perfil";
+        } else {
+            return "redirect:/noRegistrado";
         }
     }
 
