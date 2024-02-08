@@ -9,4 +9,5 @@ public interface PacienteDAO {
     public List<Paciente> getAllPacientes();
     public Paciente getPaciente(int id);
     public boolean deletePaciente(int id);
+    public Paciente getPacienteByIdUsuario(int idUsuario);
 }

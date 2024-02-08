@@ -1,8 +1,11 @@
 package com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Controladores;
 
-import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.DTO.PacienteDTO;
+//import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.DTO.PacienteDTO;
+import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Entidades.Paciente;
 import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Entidades.Usuario;
+import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Servicios.ServicioPacientes;
 import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Servicios.ServicioUsuarios;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,14 +13,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
+
 @Controller
 public class ControladorAutorizacion {
 
     private final ServicioUsuarios servicioUsuarios;
+    private final ServicioPacientes servicioPacientes;
 
     @Autowired
-    public ControladorAutorizacion(ServicioUsuarios servicioUsuarios) {
+    public ControladorAutorizacion(ServicioUsuarios servicioUsuarios, ServicioPacientes servicioPacientes) {
         this.servicioUsuarios = servicioUsuarios;
+        this.servicioPacientes = servicioPacientes;
     }
 
     @GetMapping("/")
@@ -44,10 +55,12 @@ public class ControladorAutorizacion {
     @PostMapping("/login")
     public String login(@RequestParam("username") String username,
                         @RequestParam("password") String password,
+                        HttpSession session,
                         RedirectAttributes redirectAttributes,
                         Model model) {
         Usuario usuario = servicioUsuarios.findByNombreAndContrasena(username, password);
         if (usuario != null) {
+            session.setAttribute("userId", usuario.getId_usuario());
             String rol = usuario.getRol();
             if(rol.equalsIgnoreCase("Medico")){
                 return "redirect:/pagina_medico";
@@ -80,11 +93,57 @@ public class ControladorAutorizacion {
     }
 
     @GetMapping("/perfil")
-    public String editarPerfil() {
-        // Devuelves la vista de edición de perfil
-        return "perfil_paciente";
+    public String editarPerfil(HttpSession session, Model model) throws ParseException {
+        int userId = (int) session.getAttribute("userId");
+        if (userId != 0) {
+            Paciente paciente = servicioPacientes.findByIdUsuario(userId);
+            Usuario usuario = servicioUsuarios.findById(userId);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String fechaNacimientoFormatted = formatter.format(paciente.getFecha_nacimiento());
+            model.addAttribute("paciente", paciente);
+            model.addAttribute("usuario", usuario);
+            model.addAttribute("fechaNacimiento", fechaNacimientoFormatted);
+            return "perfil_paciente";
+        } else {
+            return "redirect:/login";
+        }
     }
 
+    @PostMapping("/guardarCambios")
+    public String guardarCambios(@RequestParam("nombrePaciente") String nombrePaciente,
+                                 @RequestParam("apellidosPaciente") String apellidosPaciente,
+                                 @RequestParam("fechaNacimiento") String fechaNacimiento,
+                                 @RequestParam("sexo") String sexo,
+                                 @RequestParam("direccion") String direccion,
+                                 @RequestParam("correoElectronico") String correoElectronico,
+                                 @RequestParam("telefono") String telefono,
+                                 @RequestParam("nombreUsuario") String nombreUsuario,
+                                 @RequestParam("contrasena") String contrasena,
+                                 HttpSession session,
+                                 RedirectAttributes redirectAttributes) throws ParseException {
+        int userId = (int) session.getAttribute("userId");
+        if(userId != 0){
+            Paciente paciente = servicioPacientes.findByIdUsuario(userId);
+            Usuario usuario = servicioUsuarios.findById(userId);
+            paciente.setNombre_paciente(nombrePaciente);
+            paciente.setApellidos_paciente(apellidosPaciente);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date fechaNacimientoDate = formatter.parse(fechaNacimiento);
+            paciente.setFecha_nacimiento(fechaNacimientoDate);
+            paciente.setSexo(sexo);
+            paciente.setDireccion(direccion);
+            paciente.setCorreo_electronico(correoElectronico);
+            paciente.setTelefono(telefono);
+            usuario.setNombre(nombreUsuario);
+            usuario.setContrasena(contrasena);
+            servicioPacientes.registrarPaciente(paciente);
+            servicioUsuarios.registrarUsuario(usuario);
+            redirectAttributes.addFlashAttribute("successMessage", "Cambios guardados correctamente.");
+            return "redirect:/perfil";
+        } else {
+            return "redirect:/perfil";
+        }
+    }
 
     @GetMapping("/logout")
     public String logout() {

@@ -56,4 +56,19 @@ public class PacienteDAOImpl implements PacienteDAO{
             return false;
         }
     }
+
+    @Override
+    public Paciente getPacienteByIdUsuario(int idUsuario) {
+        entityManager = entityManagerFactory.createEntityManager();
+        try{
+            entityManager.getTransaction().begin();
+            String hql = "FROM Paciente p WHERE p.usuario ="+idUsuario;
+            Query query = entityManager.createQuery(hql);
+            Paciente paciente = (Paciente) query.getSingleResult();
+            entityManager.getTransaction().commit();
+            return paciente;
+        } catch (Exception exception){
+            return null;
+        }
+    }
 }

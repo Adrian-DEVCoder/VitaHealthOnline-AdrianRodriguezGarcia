@@ -17,6 +17,12 @@ public class ServicioUsuarios {
     }
 
     @Transactional
+    public Usuario findById(int id){
+        return usuarioDAO.getUsuario(id);
+    }
+
+
+    @Transactional
     public void registrarUsuario(Usuario usuario){
         usuarioDAO.insertarActualizarUsuario(usuario);
     }
