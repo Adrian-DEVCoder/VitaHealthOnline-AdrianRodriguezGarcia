@@ -116,7 +116,7 @@
                 <div class="section-content">
                     <p>Regístrate, crea tu perfil y accede a tu historial clínico.</p>
                     <p>Actualiza tu información personal y clínica fácilmente.</p>
-                    <a href="/registro_perfil" class="button">Ir a Registro y Perfil</a>
+                    <a href="./perfil" class="button">Ir a Registro y Perfil</a>
                 </div>
             </div>
         </div>

@@ -1,5 +1,6 @@
 package com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Controladores;
 
+import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.DTO.PacienteDTO;
 import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Entidades.Usuario;
 import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Servicios.ServicioUsuarios;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,21 +20,25 @@ public class ControladorAutorizacion {
         this.servicioUsuarios = servicioUsuarios;
     }
 
-    @GetMapping("/login")
-    public String loginPage() {
-        return "iniciarsesion"; // Vista para el formulario de inicio de sesión
+    @GetMapping("/")
+    public String index(){
+        return "index";
     }
 
     @GetMapping("/pagina_medico")
     public String paginaMedico() {
-        // Lógica para mostrar la página para médicos
-        return "pagina_medico"; // Nombre de la vista para la página de médicos
+        return "pagina_medico";
     }
 
     @GetMapping("/pagina_paciente")
     public String paginaPaciente() {
-        // Lógica para mostrar la página para pacientes
-        return "pagina_paciente"; // Nombre de la vista para la página de pacientes
+        return "pagina_paciente";
+    }
+
+    // Mapeo para el logueo
+    @GetMapping("/login")
+    public String loginPage() {
+        return "iniciarsesion";
     }
 
     @PostMapping("/login")
@@ -41,7 +46,6 @@ public class ControladorAutorizacion {
                         @RequestParam("password") String password,
                         RedirectAttributes redirectAttributes,
                         Model model) {
-        // Lógica para verificar las credenciales del usuario utilizando el servicio
         Usuario usuario = servicioUsuarios.findByNombreAndContrasena(username, password);
         if (usuario != null) {
             String rol = usuario.getRol();
@@ -51,17 +55,15 @@ public class ControladorAutorizacion {
                 return "redirect:/pagina_paciente";
             }
         } else {
-            // Si las credenciales no son válidas, agregar un mensaje de error al modelo
             model.addAttribute("error", "Usuario o contraseña incorrectos");
-            // Devolver la vista de inicio de sesión
             return "iniciarsesion";
         }
     }
 
-
+    // Mapeo para el registro
     @GetMapping("/register")
     public String registerPage() {
-        return "registro"; // Vista para el formulario de registro de usuarios
+        return "registro";
     }
 
     @PostMapping("/register")
@@ -69,19 +71,26 @@ public class ControladorAutorizacion {
                            @RequestParam("contrasena") String contrasena,
                            @RequestParam("rol") String rol,
                            RedirectAttributes redirectAttributes) {
-        // Crear un nuevo usuario y guardarlo en la base de datos
         Usuario nuevoUsuario = new Usuario();
         nuevoUsuario.setNombre(nombre);
         nuevoUsuario.setContrasena(contrasena);
         nuevoUsuario.setRol(rol);
         servicioUsuarios.registrarUsuario(nuevoUsuario);
-        // Redirigir al usuario a la página de inicio de sesión después de registrarse
         return "redirect:/login";
     }
+
+    @GetMapping("/perfil")
+    public String editarPerfil() {
+        // Devuelves la vista de edición de perfil
+        return "perfil_paciente";
+    }
+
 
     @GetMapping("/logout")
     public String logout() {
         // Lógica para cerrar la sesión del usuario
         return "redirect:/login"; // Redirigir al usuario a la página de inicio de sesión después de cerrar sesión
     }
+
+
 }
