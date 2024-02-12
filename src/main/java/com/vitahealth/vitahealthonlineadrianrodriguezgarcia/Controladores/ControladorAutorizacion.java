@@ -1,8 +1,9 @@
 package com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Controladores;
 
-//import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.DTO.PacienteDTO;
 import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Entidades.Paciente;
 import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Entidades.Usuario;
+import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Repositorio.PacienteDAO;
+import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Repositorio.PacienteDAOImpl;
 import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Servicios.ServicioPacientes;
 import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Servicios.ServicioUsuarios;
 import jakarta.servlet.http.HttpSession;
@@ -18,10 +19,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class ControladorAutorizacion {
-
+    private final PacienteDAO pacienteDAO = new PacienteDAOImpl();
     private final ServicioUsuarios servicioUsuarios;
     private final ServicioPacientes servicioPacientes;
 
@@ -67,7 +69,11 @@ public class ControladorAutorizacion {
     }
 
     @GetMapping("/gestion_pacientes")
-    public String gestionPacientes(){
+    public String gestionPacientes(Model model){
+        List<Paciente> pacientes = pacienteDAO.getAllPacientes();
+        if (!pacientes.isEmpty()) {
+            model.addAttribute("pacientes",pacientes);
+        }
         return "gestion_pacientes";
     }
 

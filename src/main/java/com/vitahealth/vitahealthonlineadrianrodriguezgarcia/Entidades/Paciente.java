@@ -158,6 +158,9 @@ public class Paciente {
                 ", correo_electronico='" + correo_electronico + '\'' +
                 ", telefono='" + telefono + '\'' +
                 ", usuario=" + usuario +
+                ", consultas=" + consultas +
+                ", historiales=" + historiales +
+                ", datosSalud=" + datosSalud +
                 '}';
     }
 }

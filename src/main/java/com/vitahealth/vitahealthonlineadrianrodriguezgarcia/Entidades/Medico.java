@@ -3,6 +3,8 @@ package com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Entidades;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @Entity
 @Table(name = "MEDICOS")

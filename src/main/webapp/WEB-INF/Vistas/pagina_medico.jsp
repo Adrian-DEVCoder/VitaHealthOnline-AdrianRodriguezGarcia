@@ -115,20 +115,6 @@
             <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
                     <div class="card-header">
-                        <h4 class="my-0 font-weight-normal"><i class="bi bi-file-medical"></i> Historial Clínico Completo</h4>
-                    </div>
-                    <div class="card-body">
-                        <ul class="list-unstyled mt-3 mb-4">
-                            <li>Acceso al historial clínico completo</li>
-                            <li>Registro y actualización de información médica</li>
-                        </ul>
-                        <a href="./historial_clinico" class="btn btn-primary">Ir a Historial Clínico</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                    <div class="card-header">
                         <h4 class="my-0 font-weight-normal"><i class="bi bi-graph-up"></i> Análisis de Datos</h4>
                     </div>
                     <div class="card-body">
