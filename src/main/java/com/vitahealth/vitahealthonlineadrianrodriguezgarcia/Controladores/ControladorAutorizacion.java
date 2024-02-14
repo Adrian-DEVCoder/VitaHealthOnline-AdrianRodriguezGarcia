@@ -17,12 +17,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
 @Controller
 public class ControladorAutorizacion {
+
     private final PacienteDAO pacienteDAO = new PacienteDAOImpl();
     private final ServicioUsuarios servicioUsuarios;
     private final ServicioPacientes servicioPacientes;
@@ -139,7 +139,7 @@ public class ControladorAutorizacion {
     }
 
     @GetMapping("/perfil")
-    public String editarPerfil(HttpSession session, Model model) throws ParseException {
+    public String editarPerfil(HttpSession session, Model model) {
         int userId = (int) session.getAttribute("userId");
         if (userId != 0) {
             Paciente paciente = servicioPacientes.findByIdUsuario(userId);
@@ -239,9 +239,7 @@ public class ControladorAutorizacion {
 
     @GetMapping("/logout")
     public String logout() {
-        // Lógica para cerrar la sesión del usuario
-        return "redirect:/login"; // Redirigir al usuario a la página de inicio de sesión después de cerrar sesión
+        return "redirect:/login";
     }
-
 
 }
