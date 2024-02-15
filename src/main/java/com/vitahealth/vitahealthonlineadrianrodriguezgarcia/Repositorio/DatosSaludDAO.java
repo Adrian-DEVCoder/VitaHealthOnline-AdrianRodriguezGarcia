@@ -9,4 +9,5 @@ public interface DatosSaludDAO {
     public List<DatosSalud> getAllDatosSalud();
     public DatosSalud getDatosSalud(int id);
     public boolean deleteDatosSalud(int id);
+    public List<DatosSalud> obtenerDatosSaludPorPaciente(int id);
 }

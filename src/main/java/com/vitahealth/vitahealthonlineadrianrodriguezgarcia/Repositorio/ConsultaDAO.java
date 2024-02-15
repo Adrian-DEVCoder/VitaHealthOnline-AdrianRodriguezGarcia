@@ -9,4 +9,5 @@ public interface ConsultaDAO {
     public List<Consulta> getAllConsultas();
     public Consulta getConsulta(int id);
     public boolean deleteConsulta(int id);
+    public List<Consulta> obtenerConsultasPorPaciente(int id);
 }

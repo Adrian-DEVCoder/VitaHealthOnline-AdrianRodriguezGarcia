@@ -99,7 +99,7 @@
                     <p>Fecha de nacimiento: <fmt:formatDate value="${paciente.fecha_nacimiento}" pattern="${dateFormat}" /></p>
                 </div>
             </div>
-            <a href="/detalle_paciente?id=${paciente.id_paciente}" class="ver-detalles-btn">Ver Detalles</a>
+            <a href="./detalle_paciente?id=${paciente.id_paciente}" class="ver-detalles-btn">Ver Detalles</a>
         </div>
     </c:forEach>
 </div>

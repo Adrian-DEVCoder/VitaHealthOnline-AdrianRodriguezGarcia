@@ -57,4 +57,13 @@ public class DatosSaludDAOImpl implements DatosSaludDAO{
             return false;
         }
     }
+
+    @Override
+    public List<DatosSalud> obtenerDatosSaludPorPaciente(int id) {
+        entityManager = entityManagerFactory.createEntityManager();
+        String hql = "FROM DatosSalud ds WHERE ds.paciente.id_paciente = :id";
+        Query query = entityManager.createQuery(hql);
+        query.setParameter("id",id);
+        return query.getResultList();
+    }
 }

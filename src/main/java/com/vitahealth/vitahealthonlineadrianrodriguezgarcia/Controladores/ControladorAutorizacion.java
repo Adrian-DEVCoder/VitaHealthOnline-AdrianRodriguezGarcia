@@ -1,11 +1,9 @@
 package com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Controladores;
 
-import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Entidades.Paciente;
-import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Entidades.Usuario;
+import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Entidades.*;
 import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Repositorio.PacienteDAO;
 import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Repositorio.PacienteDAOImpl;
-import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Servicios.ServicioPacientes;
-import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Servicios.ServicioUsuarios;
+import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Servicios.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,11 +24,17 @@ public class ControladorAutorizacion {
     private final PacienteDAO pacienteDAO = new PacienteDAOImpl();
     private final ServicioUsuarios servicioUsuarios;
     private final ServicioPacientes servicioPacientes;
+    private final ServicioConsultas servicioConsultas;
+    private final ServicioDatosSalud servicioDatosSalud;
+    private final ServicioHistorial servicioHistorial;
 
     @Autowired
-    public ControladorAutorizacion(ServicioUsuarios servicioUsuarios, ServicioPacientes servicioPacientes) {
+    public ControladorAutorizacion(ServicioUsuarios servicioUsuarios, ServicioPacientes servicioPacientes, ServicioConsultas servicioConsultas, ServicioDatosSalud servicioDatosSalud, ServicioHistorial servicioHistorial) {
         this.servicioUsuarios = servicioUsuarios;
         this.servicioPacientes = servicioPacientes;
+        this.servicioConsultas = servicioConsultas;
+        this.servicioDatosSalud = servicioDatosSalud;
+        this.servicioHistorial = servicioHistorial;
     }
 
     @GetMapping("/")
@@ -92,50 +96,45 @@ public class ControladorAutorizacion {
         return "analisis_datos";
     }
 
-    // Mapeo para el logueo
     @GetMapping("/login")
     public String loginPage() {
         return "iniciarsesion";
     }
 
-    @PostMapping("/login")
-    public String login(@RequestParam("username") String username,
-                        @RequestParam("password") String password,
-                        HttpSession session,
-                        RedirectAttributes redirectAttributes,
-                        Model model) {
-        Usuario usuario = servicioUsuarios.findByNombreAndContrasena(username, password);
-        if (usuario != null) {
-            session.setAttribute("userId", usuario.getId_usuario());
-            String rol = usuario.getRol();
-            if(rol.equalsIgnoreCase("Medico")){
-                return "redirect:/pagina_medico";
-            } else {
-                return "redirect:/pagina_paciente";
-            }
-        } else {
-            model.addAttribute("error", "Usuario o contraseña incorrectos");
-            return "iniciarsesion";
-        }
-    }
-
-    // Mapeo para el registro
     @GetMapping("/register")
     public String registerPage() {
         return "registro";
     }
 
-    @PostMapping("/register")
-    public String register(@RequestParam("usuario") String nombre,
-                           @RequestParam("contrasena") String contrasena,
-                           @RequestParam("rol") String rol,
-                           RedirectAttributes redirectAttributes) {
-        Usuario nuevoUsuario = new Usuario();
-        nuevoUsuario.setNombre(nombre);
-        nuevoUsuario.setContrasena(contrasena);
-        nuevoUsuario.setRol(rol);
-        servicioUsuarios.registrarUsuario(nuevoUsuario);
-        return "redirect:/login";
+    @GetMapping("/detalle_paciente")
+    public String detallePaciente2(@RequestParam("id") int idPaciente, Model model){
+        if(idPaciente != 0){
+            Paciente paciente = servicioPacientes.findById(idPaciente);
+            List<Consulta> consultas = servicioConsultas.getConsultasByPaciente(idPaciente);
+            List<DatosSalud> datosSalud = servicioDatosSalud.getDatosSaludByPaciente(idPaciente);
+            Historial historial = servicioHistorial.getHistorialByPacienteWithDiagnosticos(idPaciente);
+            if(paciente != null){
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                String fechaNacimientoFormatted = formatter.format(paciente.getFecha_nacimiento());
+                model.addAttribute("paciente", paciente);
+                model.addAttribute("consultas", consultas);
+                model.addAttribute("datosSalud", datosSalud);
+                model.addAttribute("historial", historial);
+                model.addAttribute("fechaNacimiento", fechaNacimientoFormatted);
+                return "detalle_paciente";
+            }
+        }
+        return "redirect:/gestion_pacientes";
+    }
+
+    @GetMapping("/noRegistrado")
+    public String noRegistrado(){
+        return "noRegistrado";
+    }
+
+    @GetMapping("/registro_paciente")
+    public String registroPaciente(){
+        return "registro_paciente";
     }
 
     @GetMapping("/perfil")
@@ -159,14 +158,41 @@ public class ControladorAutorizacion {
         }
     }
 
-    @GetMapping("/noRegistrado")
-    public String noRegistrado(){
-        return "noRegistrado";
+    @GetMapping("/logout")
+    public String logout() {
+        return "redirect:/login";
     }
 
-    @GetMapping("/registro_paciente")
-    public String registroPaciente(){
-        return "registro_paciente";
+    @PostMapping("/login")
+    public String login(@RequestParam("username") String username,
+                        @RequestParam("password") String password,
+                        HttpSession session,
+                        Model model) {
+        Usuario usuario = servicioUsuarios.findByNombreAndContrasena(username, password);
+        if (usuario != null) {
+            session.setAttribute("userId", usuario.getId_usuario());
+            String rol = usuario.getRol();
+            if(rol.equalsIgnoreCase("Medico")){
+                return "redirect:/pagina_medico";
+            } else {
+                return "redirect:/pagina_paciente";
+            }
+        } else {
+            model.addAttribute("error", "Usuario o contraseña incorrectos");
+            return "iniciarsesion";
+        }
+    }
+
+    @PostMapping("/register")
+    public String register(@RequestParam("usuario") String nombre,
+                           @RequestParam("contrasena") String contrasena,
+                           @RequestParam("rol") String rol) {
+        Usuario nuevoUsuario = new Usuario();
+        nuevoUsuario.setNombre(nombre);
+        nuevoUsuario.setContrasena(contrasena);
+        nuevoUsuario.setRol(rol);
+        servicioUsuarios.registrarUsuario(nuevoUsuario);
+        return "redirect:/login";
     }
 
     @PostMapping("/insertarPaciente")
@@ -236,10 +262,4 @@ public class ControladorAutorizacion {
             return "redirect:/perfil";
         }
     }
-
-    @GetMapping("/logout")
-    public String logout() {
-        return "redirect:/login";
-    }
-
 }

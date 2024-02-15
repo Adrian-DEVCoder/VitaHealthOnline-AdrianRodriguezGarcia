@@ -57,4 +57,13 @@ public class ConsultaDAOImpl implements ConsultaDAO{
             return false;
         }
     }
+
+    @Override
+    public List<Consulta> obtenerConsultasPorPaciente(int id) {
+        entityManager = entityManagerFactory.createEntityManager();
+        String hql = "FROM Consulta c WHERE c.paciente.id_paciente = :id";
+        Query query = entityManager.createQuery(hql);
+        query.setParameter("id", id);
+        return query.getResultList();
+    }
 }

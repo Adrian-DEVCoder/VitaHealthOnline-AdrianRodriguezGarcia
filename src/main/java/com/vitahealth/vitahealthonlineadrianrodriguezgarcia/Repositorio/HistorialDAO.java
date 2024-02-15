@@ -9,4 +9,5 @@ public interface HistorialDAO {
     public List<Historial> getAllHistoriales();
     public Historial getHistorial(int id);
     public boolean deleteHistorial(int id);
+    public Historial obtenerHistorialPorPacienteConDiagnosticos(int id);
 }

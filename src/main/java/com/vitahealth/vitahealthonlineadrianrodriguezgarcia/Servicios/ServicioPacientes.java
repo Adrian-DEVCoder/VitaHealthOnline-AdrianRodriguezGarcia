@@ -12,6 +12,10 @@ import java.util.List;
 public class ServicioPacientes {
 
     PacienteDAO pacienteDAO = new PacienteDAOImpl();
+    @Transactional(readOnly = true)
+    public Paciente findById(int id){
+        return pacienteDAO.getPaciente(id);
+    }
 
     @Transactional(readOnly = true)
     public Paciente findByIdUsuario(int id){
