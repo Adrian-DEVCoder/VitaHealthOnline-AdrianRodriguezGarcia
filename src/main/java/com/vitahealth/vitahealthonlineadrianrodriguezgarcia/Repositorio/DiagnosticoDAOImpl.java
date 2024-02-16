@@ -57,4 +57,13 @@ public class DiagnosticoDAOImpl implements DiagnosticoDAO{
             return false;
         }
     }
+
+    @Override
+    public List<Diagnostico> getDiagnosticosByHistorial(int id) {
+        entityManager = entityManagerFactory.createEntityManager();
+        String hql = "FROM Diagnostico d WHERE d.historial.id_historial = :id";
+        Query query = entityManager.createQuery(hql);
+        query.setParameter("id", id);
+        return query.getResultList();
+    }
 }

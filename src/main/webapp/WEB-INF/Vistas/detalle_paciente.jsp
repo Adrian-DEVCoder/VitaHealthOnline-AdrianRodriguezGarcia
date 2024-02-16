@@ -75,14 +75,16 @@
                             <li class="list-group-item">${diagnostico.diagnostico}</li>
                             <li class="list-group-item">${diagnostico.tratamiento}</li>
                         </c:forEach>
-                        <button class="btn btn-primary btn-nuevo-registro" onclick="./agregar_registro_historial?id=${paciente.id_paciente}">
+                        <input type="hidden" name="idPaciente" value="${paciente.id_paciente}">
+                        <button class="btn btn-primary btn-nuevo-registro" onclick="window.location.href='./agregar_registro_historial'">
                             Añadir Nuevo Registro al Historial
                         </button>
                     </ul>
                 </c:if>
                 <c:if test="${empty historial.diagnosticos}">
                     <p>No hay datos de historial registrados para este paciente.</p>
-                    <button class="btn btn-primary btn-nuevo-registro" onclick="window.location.href='/agregar_registro_historial?id=${paciente.id_paciente}'">
+                    <input type="hidden" name="idPaciente" value="${paciente.id_paciente}">
+                    <button class="btn btn-primary btn-nuevo-registro" onclick="window.location.href='./agregar_registro_historial'">
                         Añadir Nuevo Registro al Historial
                     </button>
                 </c:if>

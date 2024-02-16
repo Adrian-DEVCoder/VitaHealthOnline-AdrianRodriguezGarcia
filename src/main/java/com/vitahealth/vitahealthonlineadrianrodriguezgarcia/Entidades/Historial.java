@@ -23,7 +23,6 @@ public class Historial {
     private Date fecha_registro;
     @OneToMany(mappedBy = "historial", cascade = CascadeType.ALL)
     private List<Diagnostico> diagnosticos;
-    private String notas;
 
     public Historial() {
     }
@@ -34,7 +33,6 @@ public class Historial {
         this.medico = medico;
         this.fecha_registro = fecha_registro;
         this.diagnosticos = diagnosticos;
-        this.notas = notas;
     }
 
     public int getId_historial() {
@@ -77,14 +75,6 @@ public class Historial {
         this.diagnosticos = diagnosticos;
     }
 
-    public String getNotas() {
-        return notas;
-    }
-
-    public void setNotas(String notas) {
-        this.notas = notas;
-    }
-
     @Override
     public String toString() {
         return "Historial{" +
@@ -92,7 +82,6 @@ public class Historial {
                 ", paciente=" + paciente +
                 ", medico=" + medico +
                 ", fecha_registro=" + fecha_registro +
-                ", notas='" + notas + '\'' +
                 '}';
     }
 }

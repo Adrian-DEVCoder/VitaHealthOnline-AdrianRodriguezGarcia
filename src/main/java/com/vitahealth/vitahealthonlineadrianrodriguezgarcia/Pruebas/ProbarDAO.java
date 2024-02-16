@@ -105,7 +105,6 @@ public class ProbarDAO {
         Date fechaRegistro = java.sql.Date.valueOf(LocalDate.of(2024,2,5));
         h1.setFecha_registro(fechaRegistro);
         h1.setDiagnosticos(listaDiagnosticos);
-        h1.setNotas("Realizar vida sana");
         // Insertamos el historial
         historialDAO.insertarActualizarHistorial(h1);
         // Mostramos los historiales

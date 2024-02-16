@@ -11,7 +11,17 @@ public class ServicioHistorial {
     HistorialDAO historialDAO = new HistorialDAOImpl();
 
     @Transactional(readOnly = true)
+    public Historial findById(int id){
+        return historialDAO.getHistorial(id);
+    }
+
+    @Transactional(readOnly = true)
     public Historial getHistorialByPacienteWithDiagnosticos(int id){
         return historialDAO.obtenerHistorialPorPacienteConDiagnosticos(id);
+    }
+
+    @Transactional
+    public void insertarHistorial(Historial historial){
+        historialDAO.insertarActualizarHistorial(historial);
     }
 }

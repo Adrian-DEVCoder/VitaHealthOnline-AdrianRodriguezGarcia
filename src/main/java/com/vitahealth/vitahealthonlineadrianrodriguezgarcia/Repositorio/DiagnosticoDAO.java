@@ -7,4 +7,5 @@ public interface DiagnosticoDAO {
     public List<Diagnostico> getAllDiagnosticos();
     public Diagnostico getDiagnostico(int id);
     public boolean deleteDiagnostico(int id);
+    public List<Diagnostico> getDiagnosticosByHistorial(int id);
 }

@@ -1,6 +1,8 @@
 package com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Controladores;
 
 import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Entidades.*;
+import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Repositorio.DiagnosticoDAO;
+import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Repositorio.DiagnosticoDAOImpl;
 import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Repositorio.PacienteDAO;
 import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Repositorio.PacienteDAOImpl;
 import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Servicios.*;
@@ -22,19 +24,22 @@ import java.util.List;
 public class ControladorAutorizacion {
 
     private final PacienteDAO pacienteDAO = new PacienteDAOImpl();
+    private final DiagnosticoDAO diagnosticoDAO = new DiagnosticoDAOImpl();
     private final ServicioUsuarios servicioUsuarios;
     private final ServicioPacientes servicioPacientes;
     private final ServicioConsultas servicioConsultas;
     private final ServicioDatosSalud servicioDatosSalud;
     private final ServicioHistorial servicioHistorial;
+    private final ServicioDiagnosticos servicioDiagnosticos;
 
     @Autowired
-    public ControladorAutorizacion(ServicioUsuarios servicioUsuarios, ServicioPacientes servicioPacientes, ServicioConsultas servicioConsultas, ServicioDatosSalud servicioDatosSalud, ServicioHistorial servicioHistorial) {
+    public ControladorAutorizacion(ServicioUsuarios servicioUsuarios, ServicioPacientes servicioPacientes, ServicioConsultas servicioConsultas, ServicioDatosSalud servicioDatosSalud, ServicioHistorial servicioHistorial, ServicioDiagnosticos servicioDiagnosticos) {
         this.servicioUsuarios = servicioUsuarios;
         this.servicioPacientes = servicioPacientes;
         this.servicioConsultas = servicioConsultas;
         this.servicioDatosSalud = servicioDatosSalud;
         this.servicioHistorial = servicioHistorial;
+        this.servicioDiagnosticos = servicioDiagnosticos;
     }
 
     @GetMapping("/")
@@ -171,6 +176,16 @@ public class ControladorAutorizacion {
         return "redirect:/login";
     }
 
+    @GetMapping("/agregar_registro_historial")
+    public String agregarRegistroHistorial(){
+        return "agregar_registro_historial";
+    }
+
+    @GetMapping("/no_historial")
+    public String noHistorial(){
+        return "no_historial";
+    }
+
     @PostMapping("/login")
     public String login(@RequestParam("username") String username,
                         @RequestParam("password") String password,
@@ -268,6 +283,35 @@ public class ControladorAutorizacion {
             return "redirect:/perfil";
         } else {
             return "redirect:/perfil";
+        }
+    }
+
+    @PostMapping("/agregar_registro_historial")
+    public String agregarRegistroHistorial2(@RequestParam("idHistorial") String idHistorials,
+                                            @RequestParam("idPaciente") String idPaciente,
+                                            @RequestParam("diagnostico") String diagnostico,
+                                            @RequestParam("tratamiento") String tratamiento,
+                                            RedirectAttributes redirectAttributes,
+                                            HttpSession session){
+        if(!idHistorials.isEmpty()){
+            int idHistorial = Integer.parseInt(idHistorials);
+            Historial historial = servicioHistorial.findById(idHistorial);
+            if(historial != null){
+                List<Diagnostico> diagnosticos = servicioDiagnosticos.getDiagnosticoByHistorial(idHistorial);
+                Diagnostico nuevoDiagnostico = new Diagnostico();
+                nuevoDiagnostico.setDiagnostico(diagnostico);
+                nuevoDiagnostico.setTratamiento(tratamiento);
+                servicioDiagnosticos.insertarDiagnostico(nuevoDiagnostico);
+                diagnosticos.add(nuevoDiagnostico);
+                historial.setDiagnosticos(diagnosticos);
+                servicioHistorial.insertarHistorial(historial);
+                return "redirect:/detalle_paciente";
+            } else {
+                redirectAttributes.addFlashAttribute("errorMessage", "El historial no fue encontrado");
+                return "redirect:/gestion_pacientes";
+            }
+        } else {
+            return "redirect:/no_historial?idPaciente="+idPaciente;
         }
     }
 }
