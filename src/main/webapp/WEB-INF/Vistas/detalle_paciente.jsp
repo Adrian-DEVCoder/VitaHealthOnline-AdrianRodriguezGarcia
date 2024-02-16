@@ -7,20 +7,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         body {
-            padding:   0; /* Elimina el padding predeterminado del body */
-            margin:   0; /* Elimina el margin predeterminado del body */
+            padding:   0;
+            margin:   0;
         }
         .btn-volver {
-            position: fixed; /* Hace que el botón se mantenga en la misma posición incluso al desplazarse */
-            top:   20px; /* Mueve el botón un poco hacia abajo para no estar pegado al borde superior */
-            left:   20px; /* Mueve el botón un poco hacia la derecha para no estar pegado al borde izquierdo */
-            z-index:   1; /* Asegura que el botón esté por encima de otros elementos */
+            margin-top: 20px;
         }
         .paciente-info, .consulta-info {
-            margin-top:   60px; /* Añade un margen superior para evitar que el contenido se superponga con el botón */
+            margin-top:   20px;
         }
-        .add-buttons {
-            margin-top:  20px; /* Añade un margen superior para los botones de añadir */
+        .historial, .datos-salud {
+            margin-left: 60px;
+            margin-top: 20px;
+            margin-bottom:  50px;
+        }
+        .btn-nuevo-registro{
+            margin-top: 30px;
+        }
+        .btn-nueva-consulta{
+            margin-bottom: 30px;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -44,16 +50,16 @@
                 <c:if test="${not empty consultas}">
                     <ul class="list-group">
                         <c:forEach var="consulta" items="${consultas}">
-                            <li class="list-group-item">${consulta.fecha} - ${consulta.tipo_consulta}</li>
+                            <li class="list-group-item">${fechaConsulta} - ${consulta.tipo_consulta}</li>
                         </c:forEach>
-                        <button class="btn btn-primary btn-nueva-consulta" onclick="window.location.href='/agregar_consulta?id=${paciente.id}'">
+                        <button class="btn btn-primary btn-nueva-consulta" onclick="window.location.href='/agregar_consulta?id=${paciente.id_paciente}'">
                             Añadir Nueva Consulta
                         </button>
                     </ul>
                 </c:if>
                 <c:if test="${empty consultas}">
                     <p>No hay consultas registradas para este paciente.</p>
-                    <button class="btn btn-primary btn-nueva-consulta" onclick="./agregar_consulta?id=${paciente.id}">
+                    <button class="btn btn-primary btn-nueva-consulta" onclick="./agregar_consulta?id=${paciente.id_paciente}">
                         Añadir Nueva Consulta
                     </button>
                 </c:if>
@@ -69,14 +75,14 @@
                             <li class="list-group-item">${diagnostico.diagnostico}</li>
                             <li class="list-group-item">${diagnostico.tratamiento}</li>
                         </c:forEach>
-                        <button class="btn btn-primary btn-nuevo-registro" onclick="./agregar_registro_historial?id=${paciente.id}">
+                        <button class="btn btn-primary btn-nuevo-registro" onclick="./agregar_registro_historial?id=${paciente.id_paciente}">
                             Añadir Nuevo Registro al Historial
                         </button>
                     </ul>
                 </c:if>
                 <c:if test="${empty historial.diagnosticos}">
                     <p>No hay datos de historial registrados para este paciente.</p>
-                    <button class="btn btn-primary btn-nuevo-registro" onclick="window.location.href='/agregar_registro_historial?id=${paciente.id}'">
+                    <button class="btn btn-primary btn-nuevo-registro" onclick="window.location.href='/agregar_registro_historial?id=${paciente.id_paciente}'">
                         Añadir Nuevo Registro al Historial
                     </button>
                 </c:if>
@@ -86,7 +92,7 @@
                 <c:if test="${not empty datosSalud}">
                     <ul class="list-group">
                         <c:forEach var="datoSalud" items="${datosSalud}">
-                            <li class="list-group-item">${datoSalud.fecha_dato} - ${datoSalud.tipo_dato} - ${datoSalud.valor_dato} - ${datoSalud.unidad_medida}</li>
+                            <li class="list-group-item">${fechaDatosSalud} - ${datoSalud.tipo_dato} - ${datoSalud.valor_dato} ${datoSalud.unidad_medida}</li>
                         </c:forEach>
                     </ul>
                 </c:if>

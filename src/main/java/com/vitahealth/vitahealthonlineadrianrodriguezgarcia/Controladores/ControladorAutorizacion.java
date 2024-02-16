@@ -121,6 +121,14 @@ public class ControladorAutorizacion {
                 model.addAttribute("datosSalud", datosSalud);
                 model.addAttribute("historial", historial);
                 model.addAttribute("fechaNacimiento", fechaNacimientoFormatted);
+                for(Consulta con : consultas){
+                    String fechaConsulta = formatter.format(con.getFecha_consulta());
+                    model.addAttribute("fechaConsulta", fechaConsulta);
+                }
+                for(DatosSalud dat : datosSalud){
+                    String fechaDatosSalud = formatter.format(dat.getFecha_dato());
+                    model.addAttribute("fechaDatosSalud", fechaDatosSalud);
+                }
                 return "detalle_paciente";
             }
         }
