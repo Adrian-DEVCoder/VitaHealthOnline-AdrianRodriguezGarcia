@@ -9,4 +9,5 @@ public interface MedicoDAO {
     public List<Medico> getAllMedicos();
     public Medico getMedico(int id);
     public boolean deleteMedico(int id);
+    public Medico getMedicoByUsuario(int id);
 }

@@ -57,4 +57,18 @@ public class MedicoDAOImpl implements MedicoDAO{
             return false;
         }
     }
+
+    @Override
+    public Medico getMedicoByUsuario(int id) {
+        entityManager = entityManagerFactory.createEntityManager();
+        String hql = "FROM Medico m WHERE m.usuario.id_usuario = :id";
+        Query query = entityManager.createQuery(hql);
+        query.setParameter("id", id);
+        List<Medico> medicos = query.getResultList();
+        if (!medicos.isEmpty()) {
+            return medicos.get(0);
+        } else {
+            return null; // Retorna null si no se encuentra ningún médico
+        }
+    }
 }

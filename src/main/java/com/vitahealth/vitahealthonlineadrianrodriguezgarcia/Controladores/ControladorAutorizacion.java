@@ -31,15 +31,17 @@ public class ControladorAutorizacion {
     private final ServicioDatosSalud servicioDatosSalud;
     private final ServicioHistorial servicioHistorial;
     private final ServicioDiagnosticos servicioDiagnosticos;
+    private final ServicioMedico servicioMedico;
 
     @Autowired
-    public ControladorAutorizacion(ServicioUsuarios servicioUsuarios, ServicioPacientes servicioPacientes, ServicioConsultas servicioConsultas, ServicioDatosSalud servicioDatosSalud, ServicioHistorial servicioHistorial, ServicioDiagnosticos servicioDiagnosticos) {
+    public ControladorAutorizacion(ServicioUsuarios servicioUsuarios, ServicioPacientes servicioPacientes, ServicioConsultas servicioConsultas, ServicioDatosSalud servicioDatosSalud, ServicioHistorial servicioHistorial, ServicioDiagnosticos servicioDiagnosticos, ServicioMedico servicioMedico) {
         this.servicioUsuarios = servicioUsuarios;
         this.servicioPacientes = servicioPacientes;
         this.servicioConsultas = servicioConsultas;
         this.servicioDatosSalud = servicioDatosSalud;
         this.servicioHistorial = servicioHistorial;
         this.servicioDiagnosticos = servicioDiagnosticos;
+        this.servicioMedico = servicioMedico;
     }
 
     @GetMapping("/")
@@ -186,6 +188,16 @@ public class ControladorAutorizacion {
         return "no_historial";
     }
 
+    @GetMapping("/registrar_datos_medico")
+    public String registrarDatosMedico(){
+        return "registrar_datos_medico";
+    }
+
+    @GetMapping("/registro_medico")
+    public String registroMedico(){
+        return "registro_medico";
+    }
+
     @PostMapping("/login")
     public String login(@RequestParam("username") String username,
                         @RequestParam("password") String password,
@@ -196,7 +208,12 @@ public class ControladorAutorizacion {
             session.setAttribute("userId", usuario.getId_usuario());
             String rol = usuario.getRol();
             if(rol.equalsIgnoreCase("Medico")){
-                return "redirect:/pagina_medico";
+                boolean datosMedico = servicioMedico.tieneDatosRegistrados((int) session.getAttribute("userId"));
+                if (datosMedico) {
+                    return "redirect:/pagina_medico";
+                } else {
+                    return "redirect:/registrar_datos_medico";
+                }
             } else {
                 return "redirect:/pagina_paciente";
             }
@@ -313,5 +330,25 @@ public class ControladorAutorizacion {
         } else {
             return "redirect:/no_historial?idPaciente="+idPaciente;
         }
+    }
+
+    @PostMapping("/registro_medico")
+    public String registroDatosMedicoPost(@RequestParam("nombreProfesional") String nombre,
+                                           @RequestParam("apellidosProfesional") String apellidos,
+                                           @RequestParam("especialidad") String especialidad,
+                                           @RequestParam("correoElectronico") String correo,
+                                           @RequestParam("telefono") String telefono,
+                                           HttpSession session){
+        int userId = (int) session.getAttribute("userId");
+        Medico medico = new Medico();
+        medico.setNombre_profesional(nombre);
+        medico.setApellidos_profesional(apellidos);
+        medico.setEspecialidad(especialidad);
+        medico.setCorreo_electronico(correo);
+        medico.setTelefono(telefono);
+        Usuario usuario = servicioUsuarios.findById(userId);
+        medico.setUsuario(usuario);
+        servicioMedico.insertarMedico(medico);
+        return "redirect:/pagina_medico";
     }
 }

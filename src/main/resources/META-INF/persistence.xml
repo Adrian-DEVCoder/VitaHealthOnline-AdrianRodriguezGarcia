@@ -9,7 +9,7 @@
             <property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect"/>
             <property name="hibernate.connection.url" value="jdbc:oracle:thin:@localhost:1521:XE"/>
             <property name="hibernate.connection.driver_class" value="oracle.jdbc.OracleDriver"/>
-            <property name="hibernate.connection.username" value="Adri"/>
+            <property name="hibernate.connection.username" value="Adrian"/>
             <property name="hibernate.connection.password" value="toor12"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.show_sql" value="true"/>
