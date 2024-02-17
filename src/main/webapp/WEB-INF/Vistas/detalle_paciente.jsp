@@ -28,6 +28,30 @@
             margin-bottom: 30px;
             margin-top: 20px;
         }
+        .btn {
+            display: inline-block;
+            padding: 8px 12px;
+            margin-bottom: 0;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.42857143;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+        .btn-primary {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            color: #fff;
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
     </style>
 </head>
 <body>
@@ -52,16 +76,12 @@
                         <c:forEach var="consulta" items="${consultas}">
                             <li class="list-group-item">${fechaConsulta} - ${consulta.tipo_consulta}</li>
                         </c:forEach>
-                        <button class="btn btn-primary btn-nueva-consulta" onclick="window.location.href='/agregar_consulta?id=${paciente.id_paciente}'">
-                            Añadir Nueva Consulta
-                        </button>
+                        <a href="/agregar_consulta?id=${paciente.id_paciente}" class="btn btn-primary btn-nueva-consulta">Añadir Nueva Consulta</a>
                     </ul>
                 </c:if>
                 <c:if test="${empty consultas}">
                     <p>No hay consultas registradas para este paciente.</p>
-                    <button class="btn btn-primary btn-nueva-consulta" onclick="./agregar_consulta?id=${paciente.id_paciente}">
-                        Añadir Nueva Consulta
-                    </button>
+                    <a href="/agregar_consulta?id=${paciente.id_paciente}" class="btn btn-primary btn-nueva-consulta">Añadir Nueva Consulta</a>
                 </c:if>
             </div>
         </div>
@@ -75,18 +95,13 @@
                             <li class="list-group-item">${diagnostico.diagnostico}</li>
                             <li class="list-group-item">${diagnostico.tratamiento}</li>
                         </c:forEach>
-                        <input type="hidden" name="idPaciente" value="${paciente.id_paciente}">
-                        <button class="btn btn-primary btn-nuevo-registro" onclick="window.location.href='./agregar_registro_historial'">
-                            Añadir Nuevo Registro al Historial
-                        </button>
+                        <input type="hidden" id="idPaciente" name="idPaciente" value="${idPaciente}">
+                        <a href="./agregar_registro_historial?idPaciente=${paciente.id_paciente}&idHistorial=${historial.id_historial}" class="btn btn-primary btn-nuevo-registro">Añadir Nuevo Registro al Historial</a>
                     </ul>
                 </c:if>
                 <c:if test="${empty historial.diagnosticos}">
                     <p>No hay datos de historial registrados para este paciente.</p>
-                    <input type="hidden" name="idPaciente" value="${paciente.id_paciente}">
-                    <button class="btn btn-primary btn-nuevo-registro" onclick="window.location.href='./agregar_registro_historial'">
-                        Añadir Nuevo Registro al Historial
-                    </button>
+                    <a href="./agregar_registro_historial?idPaciente=${paciente.id_paciente}&idHistorial=${historial.id_historial}" class="btn btn-primary btn-nuevo-registro">Añadir Nuevo Registro al Historial</a>
                 </c:if>
             </div>
             <div class="datos-salud">

@@ -6,6 +6,8 @@ import com.vitahealth.vitahealthonlineadrianrodriguezgarcia.Repositorio.MedicoDA
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class ServicioMedico {
     MedicoDAO medicoDAO = new MedicoDAOImpl();
@@ -18,5 +20,15 @@ public class ServicioMedico {
     @Transactional(readOnly = true)
     public boolean tieneDatosRegistrados(int userId) {
         return medicoDAO.getMedicoByUsuario(userId) != null;
+    }
+
+    @Transactional(readOnly = true)
+    public Medico getMedicoById(int id){
+        return medicoDAO.getMedico(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Medico> getAllMedicos(){
+        return medicoDAO.getAllMedicos();
     }
 }

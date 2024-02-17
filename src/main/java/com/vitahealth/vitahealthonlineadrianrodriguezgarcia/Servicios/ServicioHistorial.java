@@ -20,6 +20,11 @@ public class ServicioHistorial {
         return historialDAO.obtenerHistorialPorPacienteConDiagnosticos(id);
     }
 
+    @Transactional(readOnly = true)
+    public Historial getHistorialByPaciente(int id){
+        return historialDAO.obtenerHistorialPorPaciente(id);
+    }
+
     @Transactional
     public void insertarHistorial(Historial historial){
         historialDAO.insertarActualizarHistorial(historial);

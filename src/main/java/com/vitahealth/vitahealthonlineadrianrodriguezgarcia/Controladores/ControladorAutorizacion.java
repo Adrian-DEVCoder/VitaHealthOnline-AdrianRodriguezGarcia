@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -124,6 +125,7 @@ public class ControladorAutorizacion {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 String fechaNacimientoFormatted = formatter.format(paciente.getFecha_nacimiento());
                 model.addAttribute("paciente", paciente);
+                model.addAttribute("idPaciente", idPaciente);
                 model.addAttribute("consultas", consultas);
                 model.addAttribute("datosSalud", datosSalud);
                 model.addAttribute("historial", historial);
@@ -179,7 +181,12 @@ public class ControladorAutorizacion {
     }
 
     @GetMapping("/agregar_registro_historial")
-    public String agregarRegistroHistorial(){
+    public String agregarRegistroHistorial(@RequestParam("idPaciente") int idPaciente,
+                                           Model model){
+        Paciente paciente = servicioPacientes.findById(idPaciente);
+        Historial historial = servicioHistorial.getHistorialByPaciente(idPaciente);
+        model.addAttribute("paciente", paciente);
+        model.addAttribute("historial", historial);
         return "agregar_registro_historial";
     }
 
@@ -196,6 +203,15 @@ public class ControladorAutorizacion {
     @GetMapping("/registro_medico")
     public String registroMedico(){
         return "registro_medico";
+    }
+
+    @GetMapping("/crear_historial")
+    public String crearHistorial(Model model){
+        List<Medico> medicos = servicioMedico.getAllMedicos();
+        List<Paciente> pacientes = servicioPacientes.getAllPacientes();
+        model.addAttribute("medicos", medicos);
+        model.addAttribute("pacientes", pacientes);
+        return "crear_historial";
     }
 
     @PostMapping("/login")
@@ -304,25 +320,21 @@ public class ControladorAutorizacion {
     }
 
     @PostMapping("/agregar_registro_historial")
-    public String agregarRegistroHistorial2(@RequestParam("idHistorial") String idHistorials,
+    public String agregarRegistroHistorial2(@RequestParam("idHistorial") int idHistorial,
                                             @RequestParam("idPaciente") String idPaciente,
                                             @RequestParam("diagnostico") String diagnostico,
                                             @RequestParam("tratamiento") String tratamiento,
-                                            RedirectAttributes redirectAttributes,
-                                            HttpSession session){
-        if(!idHistorials.isEmpty()){
-            int idHistorial = Integer.parseInt(idHistorials);
+                                            RedirectAttributes redirectAttributes){
+        if(idHistorial != 0){
             Historial historial = servicioHistorial.findById(idHistorial);
             if(historial != null){
                 List<Diagnostico> diagnosticos = servicioDiagnosticos.getDiagnosticoByHistorial(idHistorial);
                 Diagnostico nuevoDiagnostico = new Diagnostico();
                 nuevoDiagnostico.setDiagnostico(diagnostico);
                 nuevoDiagnostico.setTratamiento(tratamiento);
+                nuevoDiagnostico.setHistorial(historial);
                 servicioDiagnosticos.insertarDiagnostico(nuevoDiagnostico);
-                diagnosticos.add(nuevoDiagnostico);
-                historial.setDiagnosticos(diagnosticos);
-                servicioHistorial.insertarHistorial(historial);
-                return "redirect:/detalle_paciente";
+                return "redirect:/detalle_paciente?id="+idPaciente;
             } else {
                 redirectAttributes.addFlashAttribute("errorMessage", "El historial no fue encontrado");
                 return "redirect:/gestion_pacientes";
@@ -351,4 +363,30 @@ public class ControladorAutorizacion {
         servicioMedico.insertarMedico(medico);
         return "redirect:/pagina_medico";
     }
+
+    @PostMapping("/agregar_historial")
+    public String agregarHistorial(@RequestParam("idPaciente") int idPaciente,
+                                   @RequestParam("medico") int idMedico,
+                                   RedirectAttributes redirectAttributes) {
+        try {
+            Medico medico = servicioMedico.getMedicoById(idMedico);
+            if (medico != null) {
+                Historial historial = new Historial();
+                historial.setMedico(medico);
+                Paciente paciente = servicioPacientes.findById(idPaciente);
+                historial.setPaciente(paciente);
+                historial.setFecha_registro(new Date());
+                servicioHistorial.insertarHistorial(historial);
+                redirectAttributes.addFlashAttribute("successMessage", "Historial creado exitosamente");
+                return "redirect:/detalle_paciente?id=" + idPaciente;
+            } else {
+                redirectAttributes.addFlashAttribute("errorMessage", "No se encontró el médico seleccionado");
+                return "redirect:/gestion_pacientes";
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Ocurrió un error al crear el historial médico");
+            return "redirect:/gestion_pacientes";
+        }
+    }
+
 }

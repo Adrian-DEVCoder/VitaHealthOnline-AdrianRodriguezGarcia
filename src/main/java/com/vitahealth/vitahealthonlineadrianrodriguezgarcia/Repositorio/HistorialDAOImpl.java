@@ -59,12 +59,19 @@ public class HistorialDAOImpl implements HistorialDAO{
     public Historial obtenerHistorialPorPacienteConDiagnosticos(int id) {
         entityManager = entityManagerFactory.createEntityManager();
         try {
-            String jpql = "SELECT h FROM Historial h LEFT JOIN FETCH h.diagnosticos WHERE h.paciente.id = :id";
+            String jpql = "SELECT h FROM Historial h LEFT JOIN FETCH h.diagnosticos WHERE h.paciente.id_paciente = :id";
             return entityManager.createQuery(jpql, Historial.class)
                     .setParameter("id", id)
                     .getSingleResult();
         } catch (NoResultException e) {
             return null;
         }
+    }
+
+    @Override
+    public Historial obtenerHistorialPorPaciente(int id) {
+        entityManager = entityManagerFactory.createEntityManager();
+        String hql = "SELECT h FROM Historial h WHERE h.paciente.id_paciente = :id";
+        return entityManager.createQuery(hql, Historial.class).setParameter("id",id).getSingleResult();
     }
 }

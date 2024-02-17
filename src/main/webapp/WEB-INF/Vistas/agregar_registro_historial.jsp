@@ -56,7 +56,7 @@
         </div>
         <div class="form-group">
             <input type="hidden" name="idHistorial" value="${historial.id_historial}">
-            <input type="hidden" name="idPaciente" value="${idPaciente}">
+            <input type="hidden" name="idPaciente" value="${paciente.id_paciente}">
             <button type="submit" class="btn btn-primary btn-block">Añadir Registro</button>
         </div>
     </form>

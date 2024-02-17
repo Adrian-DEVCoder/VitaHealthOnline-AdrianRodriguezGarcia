@@ -27,4 +27,8 @@ public class ServicioPacientes {
         pacienteDAO.insertarActualizarPaciente(paciente);
     }
 
+    @Transactional(readOnly = true)
+    public List<Paciente> getAllPacientes(){
+        return pacienteDAO.getAllPacientes();
+    }
 }
