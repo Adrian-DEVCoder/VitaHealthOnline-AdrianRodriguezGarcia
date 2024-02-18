@@ -58,7 +58,6 @@
 <div class="container">
     <button class="btn btn-primary btn-volver" onclick="window.history.back();">Volver a la Gestión de Pacientes</button>
     <div class="row">
-        <!--Informacion del Paciente y Consultas-->
         <div class="col-md-3">
             <div class="paciente-info">
                 <h2>Información del Paciente</h2>
@@ -76,12 +75,10 @@
                         <c:forEach var="consulta" items="${consultas}">
                             <li class="list-group-item">${fechaConsulta} - ${consulta.tipo_consulta}</li>
                         </c:forEach>
-                        <a href="/agregar_consulta?id=${paciente.id_paciente}" class="btn btn-primary btn-nueva-consulta">Añadir Nueva Consulta</a>
                     </ul>
                 </c:if>
                 <c:if test="${empty consultas}">
                     <p>No hay consultas registradas para este paciente.</p>
-                    <a href="/agregar_consulta?id=${paciente.id_paciente}" class="btn btn-primary btn-nueva-consulta">Añadir Nueva Consulta</a>
                 </c:if>
             </div>
         </div>
